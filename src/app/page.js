@@ -18,7 +18,7 @@ export default function Page() {
       <Header />
       <HeroSection />
       <AboutSection />
-      <RefundTopperSection />
+      {/* <RefundTopperSection /> */}
       <Suspense fallback={<div /> }>
         <CoursesChatSection />
       </Suspense>
