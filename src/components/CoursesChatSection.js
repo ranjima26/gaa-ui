@@ -163,7 +163,7 @@ export default function CoursesChatSection() {
       <section id="courses-chat" className={`${poppins.className} py-16 bg-white`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl text-center mb-12 font-bold text-gray-800">
-            Our Courses &amp; Chat on WhatsApp
+            Our Courses
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
