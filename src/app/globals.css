@@ -24,5 +24,117 @@
 body {
   background: var(--background);
   color: var(--foreground);
+<<<<<<< HEAD
   font-family: Arial, Helvetica, sans-serif;
+=======
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom GAA Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #021a30;
+}
+::-webkit-scrollbar-thumb {
+  background: #075892;
+  border-radius: 9999px;
+  border: 2px solid #021a30;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffd629;
+}
+
+/* GPU Accelerated transforms for smooth scroll performance */
+.will-change-transform {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.course-row .course-number {
+  opacity: 0.68;
+}
+
+.course-row {
+  transition: border-color 350ms ease;
+}
+
+.course-row .course-visual {
+  filter: saturate(0.92);
+  transition: filter 350ms ease;
+}
+
+.course-row.course-current {
+  border-bottom-color: rgba(255, 214, 41, 0.28);
+}
+
+.course-row.course-current .course-number {
+  opacity: 1;
+}
+
+.course-row.course-current h3 {
+  color: #ffd629;
+}
+
+.course-row.course-current .course-visual {
+  filter: saturate(1.08);
+}
+
+@keyframes gaa-preloader-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes gaa-preloader-logo {
+  from { opacity: 0; transform: translateY(20px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes gaa-preloader-glow {
+  50% { transform: scale(1.25); opacity: 0.65; }
+}
+
+.gaa-preloader {
+  transition: opacity 550ms ease, visibility 550ms ease;
+}
+
+.gaa-preloader-exit {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gaa-preloader-logo {
+  animation: gaa-preloader-logo 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.gaa-preloader-progress {
+  width: 100%;
+  transform-origin: left;
+  animation: gaa-preloader-progress 1300ms ease-in-out both;
+}
+
+.gaa-preloader-glow {
+  animation: gaa-preloader-glow 1800ms ease-in-out infinite;
+}
+
+/* Reduced motion preference support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+>>>>>>> 64780ef (updated)
 }
