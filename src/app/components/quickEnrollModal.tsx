@@ -11,6 +11,7 @@ const courseOptions = [
 ];
 
 export default function QuickEnrollModal() {
+    const [mounted, setMounted] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
@@ -25,6 +26,8 @@ export default function QuickEnrollModal() {
     const courseSelectId = useId();
 
     useEffect(() => {
+        setMounted(true);
+
         // Listen to custom event so "Enroll Now" buttons can trigger this modal anytime
         const handleOpenEvent = (event: Event) => {
             const course = (event as CustomEvent<{ course?: string }>).detail?.course;
@@ -61,7 +64,7 @@ export default function QuickEnrollModal() {
         }, 2500);
     };
 
-    if (!isOpen) return null;
+    if (!mounted || !isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center overflow-y-auto p-4 sm:p-6">

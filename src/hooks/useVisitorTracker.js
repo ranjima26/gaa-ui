@@ -10,19 +10,24 @@ export function useVisitorTracker() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const baseUrl = process.env.NEXT_PUBLIC_ENROLL_API 
-    const endpoint = `${baseUrl.replace(/\/$/, '')}/api/visitor` // Ensures no double slash
+    const baseUrl = process.env.NEXT_PUBLIC_ENROLL_API
 
-    fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: pathname }),
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Visitor API error')
-        return res.json()
+    // Tracking is optional in local development and static previews. Do not
+    // crash the entire page when the API URL has not been configured.
+    if (baseUrl) {
+      const endpoint = `${baseUrl.replace(/\/$/, '')}/api/visitor`
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: pathname }),
       })
-      .catch(err => console.error('Visitor tracking failed:', err))
+        .then(res => {
+          if (!res.ok) throw new Error('Visitor API error')
+          return res.json()
+        })
+        .catch(err => console.error('Visitor tracking failed:', err))
+    }
 
     // Notify Discord: prefer sending to our serverless endpoint if available
     const notifyEndpoint = '/api/discord-notify'

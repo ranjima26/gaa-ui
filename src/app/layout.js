@@ -1,13 +1,12 @@
 // src/app/layout.js
 import './globals.css'
-import VisitorTracker from '../components/VisitorTracker'
+import VisitorTracker from './visitorTracker'
 import { poppins } from '../fonts/poppins'
-import Preloader from '../components/Preloader'
-import FloatingContactButtons from '../components/FloatingContactButtons'
+import QuickEnrollModal from './components/quickEnrollModal'
 import Script from 'next/script' // ✅ import Script
 
 export const metadata = {
-  title: 'Global Academy of Artistry',
+  title: 'GAA Yellowtooths',
   description: 'Empowering creatives with industry-led courses, hands-on projects, and expert mentorship.',
   icons: {
     icon: '/images/favicon.png',
@@ -35,15 +34,14 @@ export default function RootLayout({ children }) {
         </Script>
       </head>
       <body>
-        {/* global trackers / preloaders */}
+        {/* global tracker */}
         <VisitorTracker />
-        {/* <Preloader /> */}
 
         {/* your page content */}
         {children}
 
-        {/* floating buttons (whatsapp / phone) */}
-        <FloatingContactButtons />
+        {/* Quick Enroll Modal */}
+        <QuickEnrollModal />
       </body>
     </html>
   )
