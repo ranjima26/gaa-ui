@@ -15,7 +15,7 @@ export default function Footer() {
             <div className="footer-content mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-12 xl:px-16">
 
                 {/* Footer Main Grid */}
-                <div className="grid gap-12 border-b border-white/10 pb-16 md:grid-cols-2 lg:grid-cols-5">
+                <div className="grid gap-12 border-b border-white/10 pb-16 md:grid-cols-2 lg:grid-cols-6">
                     {/* Brand column */}
                     <div className="lg:col-span-2">
                         <Link href="/" className="relative block h-14 w-48">
@@ -65,24 +65,43 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Campus Contact */}
-                    <div>
+                    {/* Locations */}
+                    <div className="lg:col-span-2">
                         <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#ffd629]">
-                            Contact
+                            Locations
                         </h4>
-                        <div className="mt-5 space-y-3 text-sm text-slate-300">
-                            <p className="flex items-start gap-2.5">
-                                <MapPin className="h-4 w-4 shrink-0 text-[#ffd629] mt-0.5" />
-                                <span>Yellowtooths Creative Campus, Design District</span>
-                            </p>
-                            <p className="flex items-center gap-2.5">
-                                <Mail className="h-4 w-4 shrink-0 text-[#ffd629]" />
-                                <span>admissions@gaa.edu</span>
-                            </p>
-                            <p className="flex items-center gap-2.5">
-                                <Phone className="h-4 w-4 shrink-0 text-[#ffd629]" />
-                                <span>+91 98765 43210</span>
-                            </p>
+                        <div className="mt-5 grid gap-8 text-sm text-slate-300 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                            <div>
+                                <h5 className="text-base font-black text-white">Global Academy of Artistry</h5>
+                                <p className="mt-4 flex items-start gap-2.5 leading-6">
+                                    <MapPin className="mt-1 h-4 w-4 shrink-0 text-[#ffd629]" />
+                                    <span>Kutty Sahib Layout, Lane no. 1<br />Near Model Engineering College<br />Thrikkakara - 682021</span>
+                                </p>
+                                <a href="tel:+919995022146" className="mt-2 flex items-center gap-2.5 transition-colors hover:text-white">
+                                    <Phone className="h-4 w-4 shrink-0 text-[#ffd629]" />
+                                    +91 99950 22146
+                                </a>
+                                <a href="mailto:info@ytgaa.com" className="mt-2 flex items-center gap-2.5 transition-colors hover:text-white">
+                                    <Mail className="h-4 w-4 shrink-0 text-[#ffd629]" />
+                                    info@ytgaa.com
+                                </a>
+                            </div>
+
+                            <div>
+                                <h5 className="text-base font-black text-white">Yellowtooths</h5>
+                                <p className="mt-4 flex items-start gap-2.5 leading-6">
+                                    <MapPin className="mt-1 h-4 w-4 shrink-0 text-[#ffd629]" />
+                                    <span>Kutty Sahib Layout, Lane no. 1<br />Near Model Engineering College<br />Thrikkakara - 682021</span>
+                                </p>
+                                <a href="tel:+919048326777" className="mt-2 flex items-center gap-2.5 transition-colors hover:text-white">
+                                    <Phone className="h-4 w-4 shrink-0 text-[#ffd629]" />
+                                    +91 90483 26777
+                                </a>
+                                <a href="mailto:info@yellowtooths.in" className="mt-2 flex items-center gap-2.5 transition-colors hover:text-white">
+                                    <Mail className="h-4 w-4 shrink-0 text-[#ffd629]" />
+                                    info@yellowtooths.in
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

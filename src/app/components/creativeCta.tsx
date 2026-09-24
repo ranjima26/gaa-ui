@@ -10,9 +10,10 @@ import { useGSAP } from "@gsap/react";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const mentors = [
-    { name: "Cristina", courses: ["GRAPHIC DESIGN + UI/UX With AI – Integration", "GRAPHIC DESIGN + 3D With AI – Integration"], image: "/mentor-uiux.png", number: "01" },
-    { name: "Hari", courses: ["Film Poster Design"], image: "/mentor-3d-motion.png", number: "02" },
-    { name: "Maria", courses: ["Digital Marketing with AI Tools"], image: "/mentor-marketing.png", number: "03" },
+    { name: "Christina", courses: ["GRAPHIC DESIGN + UI/UX With AI – Integration"], image: "/mentor-uiux.png" },
+    { name: "Ancy", courses: ["GRAPHIC DESIGN + 3D With AI – Integration"], image: "/mentor-film-poster-woman.png" },
+    { name: "Lakshmi", courses: ["Film Poster Design"], image: "/mentor-marketing.png" },
+    { name: "Maria", courses: ["Digital Marketing with AI Tools"], image: "/mentor-motion-design-woman.png" },
 ];
 
 export default function CreativeCta() {
@@ -69,9 +70,9 @@ export default function CreativeCta() {
                     </p>
                 </div>
 
-                <div className="mx-auto mt-11 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="mx-auto mt-11 grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {mentors.map((mentor) => (
-                        <article key={mentor.number} className="mentor-card group relative rounded-2xl border border-[#159ee9]/45 bg-[#041d36]/80 p-3 shadow-[0_24px_55px_-35px_rgba(14,171,255,.8)] transition-all duration-500 hover:-translate-y-2 hover:border-[#39c1ff] hover:shadow-[0_28px_60px_-25px_rgba(14,171,255,.55)]">
+                        <article key={mentor.name} className="mentor-card group relative rounded-2xl border border-[#159ee9]/45 bg-[#041d36]/80 p-3 shadow-[0_24px_55px_-35px_rgba(14,171,255,.8)] transition-all duration-500 hover:-translate-y-2 hover:border-[#39c1ff] hover:shadow-[0_28px_60px_-25px_rgba(14,171,255,.55)]">
                             <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-gradient-to-br from-[#0858d5] via-[#087ec5] to-[#20b8f5]">
                                 <div className="absolute -bottom-[26%] left-1/2 h-[108%] w-[120%] -translate-x-1/2 rounded-full bg-[#087ff0]/70 ring-1 ring-white/20" />
                                 <Image
@@ -82,7 +83,6 @@ export default function CreativeCta() {
                                     className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.045]"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#031a31]/80 via-transparent to-transparent" />
-                                <span className="absolute right-4 top-3 text-4xl font-black tracking-[-0.08em] text-white/20">{mentor.number}</span>
                             </div>
 
                             <div className="flex items-end justify-between gap-3 px-1 pb-1 pt-4">
@@ -125,4 +125,3 @@ export default function CreativeCta() {
         </section>
     );
 }
-
