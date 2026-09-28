@@ -3,6 +3,7 @@ import Hero from './components/hero'
 import About from './components/about'
 import OurCourse from './components/ourCourse'
 import CreativeCta from './components/creativeCta'
+import AboutPoster from './components/aboutPoster'
 import Footer from './components/footer'
 import Preloader from './components/preloader'
 
@@ -13,6 +14,7 @@ export default function Home() {
       <main className="relative min-h-screen bg-[#034b86]">
         <Header />
         <Hero />
+        <AboutPoster />
         <About />
         <OurCourse />
         <CreativeCta />
@@ -21,3 +23,4 @@ export default function Home() {
     </>
   )
 }
+

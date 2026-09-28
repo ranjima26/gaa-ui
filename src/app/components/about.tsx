@@ -1,291 +1,262 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, BriefcaseBusiness, Lightbulb, Presentation, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
-}
-
-const highlights = [
-    { title: "Future-ready curriculum", text: "Courses shaped around tomorrow's creative tools and skills.", icon: Sparkles },
-    { title: "Industry expert sessions", text: "Learn directly from celebrated creatives and practitioners.", icon: Presentation },
-    { title: "Live project exposure", text: "Turn classroom knowledge into meaningful real-world work.", icon: BriefcaseBusiness },
-    { title: "Creative mentorship", text: "Build confidence, imagination and an original point of view.", icon: Lightbulb },
+const GALLERY_IMAGES = [
+  { src: "/mentor-graphic-design.png", label: "Graphic Design", sub: "GAA STUDIO" },
+  { src: "/mentor-3d-motion.png", label: "3D & Motion", sub: "GAA STUDIO" },
+  { src: "/about-students.png", label: "Studio Work", sub: "GAA STUDIO" },
+  { src: "/mentor-film-poster-woman.png", label: "Film Poster", sub: "GAA STUDIO" },
+  { src: "/mentor-uiux.png", label: "UI / UX Design", sub: "GAA STUDIO" },
+  { src: "/mentor-motion-design-woman.png", label: "Motion VFX", sub: "GAA STUDIO" },
+  { src: "/course-design.jpg", label: "AI Workflows", sub: "GAA STUDIO" },
+  { src: "/mentor-marketing.png", label: "Creative Direction", sub: "GAA STUDIO" },
+  { src: "/course-animation.jpg", label: "3D Animation", sub: "GAA STUDIO" },
+  { src: "/gallery-showcase.jpg", label: "Exhibition Space", sub: "GAA STUDIO" },
+  { src: "/mentorship-studio.jpg", label: "Studio Floor", sub: "GAA STUDIO" },
+  { src: "/poster.png", label: "Poster Concepts", sub: "GAA STUDIO" },
 ];
 
+const GALLERY_DOUBLED = [...GALLERY_IMAGES, ...GALLERY_IMAGES];
+
 export default function About() {
-    const sectionRef = useRef<HTMLElement>(null);
-    const badgeRef = useRef<HTMLDivElement>(null);
-    const headingRef = useRef<HTMLHeadingElement>(null);
-    const paragraphsRef = useRef<HTMLDivElement>(null);
-    const ctaRef = useRef<HTMLAnchorElement>(null);
-    const imageWrapperRef = useRef<HTMLDivElement>(null);
-    const experienceBadgeRef = useRef<HTMLDivElement>(null);
-    const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
 
-    useGSAP(
-        () => {
-            const mm = gsap.matchMedia();
+  // 3D Auto-play continuous loop gallery with curved perspective
+  useEffect(() => {
+    if (typeof window === "undefined" || !trackRef.current) return;
 
-            // Desktop & Tablet choreographed sequence
-            mm.add("(min-width: 768px)", () => {
-                // Main Content Reveal Timeline
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 75%",
-                        end: "top 25%",
-                        toggleActions: "play none none reverse",
-                    },
-                    defaults: { ease: "power3.out" },
-                });
+    const CARD_W = 280;
+    const CARD_GAP = 24;
+    const CARD_STEP = CARD_W + CARD_GAP; // 304px
+    const LOOP_WIDTH = GALLERY_IMAGES.length * CARD_STEP;
 
-                tl.fromTo(
-                    badgeRef.current,
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, duration: 0.6 }
-                )
-                    .fromTo(
-                        headingRef.current,
-                        { opacity: 0, y: 35 },
-                        { opacity: 1, y: 0, duration: 0.9 },
-                        "-=0.4"
-                    )
-                    .fromTo(
-                        paragraphsRef.current,
-                        { opacity: 0, y: 25 },
-                        { opacity: 1, y: 0, duration: 0.8 },
-                        "-=0.6"
-                    )
-                    .fromTo(
-                        ctaRef.current,
-                        { opacity: 0, x: -15 },
-                        { opacity: 1, x: 0, duration: 0.6 },
-                        "-=0.4"
-                    )
-                    .fromTo(
-                        imageWrapperRef.current,
-                        { opacity: 0, scale: 0.94, x: -30 },
-                        { opacity: 1, scale: 1, x: 0, duration: 1.1, ease: "power2.out" },
-                        "-=0.9"
-                    )
-                    .fromTo(
-                        experienceBadgeRef.current,
-                        { opacity: 0, scale: 0.75, y: 30 },
-                        { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "back.out(1.5)" },
-                        "-=0.6"
-                    );
+    const update3DEffect = () => {
+      const centerX = window.innerWidth / 2;
+      cardRefs.current.forEach((el) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const distFromCenter = cardCenter - centerX;
+        const normalized = distFromCenter / (window.innerWidth * 0.52);
 
-                // Parallax depth on image during scroll
-                gsap.to(imageWrapperRef.current, {
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: 1.5,
-                    },
-                    yPercent: -8,
-                    ease: "none",
-                });
+        const clampedNorm = Math.max(-1.3, Math.min(1.3, normalized));
+        const rotateY = -clampedNorm * 26;
+        const scale = Math.max(0.82, 1 - Math.abs(clampedNorm) * 0.16);
+        const opacity = Math.max(0.4, 1 - Math.abs(clampedNorm) * 0.42);
 
-                // Cards entrance staggered
-                if (cardsContainerRef.current) {
-                    const cards = cardsContainerRef.current.children;
-                    gsap.fromTo(
-                        cards,
-                        { opacity: 0, y: 40 },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.7,
-                            stagger: 0.12,
-                            ease: "power2.out",
-                            scrollTrigger: {
-                                trigger: cardsContainerRef.current,
-                                start: "top 82%",
-                                toggleActions: "play none none reverse",
-                            },
-                        }
-                    );
-                }
-            });
+        gsap.set(el, {
+          rotationY: rotateY,
+          scale: scale,
+          opacity: opacity,
+          transformPerspective: 1100,
+          transformOrigin: "center center",
+          willChange: "transform, opacity",
+        });
+      });
+    };
 
-            // Mobile view: gentle fade without aggressive movement
-            mm.add("(max-width: 767px)", () => {
-                gsap.fromTo(
-                    [badgeRef.current, headingRef.current, paragraphsRef.current, imageWrapperRef.current],
-                    { opacity: 0, y: 24 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        stagger: 0.15,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: sectionRef.current,
-                            start: "top 85%",
-                            toggleActions: "play none none none",
-                        },
-                    }
-                );
-
-                if (cardsContainerRef.current) {
-                    gsap.fromTo(
-                        cardsContainerRef.current.children,
-                        { opacity: 0, y: 20 },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.6,
-                            stagger: 0.1,
-                            ease: "power2.out",
-                            scrollTrigger: {
-                                trigger: cardsContainerRef.current,
-                                start: "top 90%",
-                                toggleActions: "play none none none",
-                            },
-                        }
-                    );
-                }
-            });
-        },
-        { scope: sectionRef }
+    const tween = gsap.fromTo(
+      trackRef.current,
+      { x: 0 },
+      {
+        x: -LOOP_WIDTH,
+        duration: 44,
+        ease: "none",
+        repeat: -1,
+        onUpdate: update3DEffect,
+      }
     );
 
-    return (
-        <section
-            ref={sectionRef}
-            id="about"
-            className="relative isolate overflow-hidden bg-[#f4f8fb] px-5 py-24 text-slate-900 transition-colors duration-700 sm:px-8 sm:py-32 lg:px-12 xl:px-16"
+    tweenRef.current = tween;
+
+    // Slow down on hover
+    const trackEl = trackRef.current;
+    const handleMouseEnter = () => tween.timeScale(0.25);
+    const handleMouseLeave = () => tween.timeScale(1);
+
+    trackEl.addEventListener("mouseenter", handleMouseEnter);
+    trackEl.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      trackEl.removeEventListener("mouseenter", handleMouseEnter);
+      trackEl.removeEventListener("mouseleave", handleMouseLeave);
+      tween.kill();
+    };
+  }, []);
+
+  return (
+    <section ref={sectionRef} id="about" className="relative overflow-hidden bg-[#f4f7fb]">
+      {/* ========================================================================= */}
+      {/* 1. 3D CAROUSEL WITH EXACT CENTER GLASSMORPHISM CARD                      */}
+      {/* ========================================================================= */}
+      <div
+        className="relative flex min-h-screen w-full items-center justify-center overflow-hidden py-20 lg:py-28"
+        style={{
+          background: "linear-gradient(180deg, #edf3fa 0%, #f6f9fc 45%, #ffffff 80%, #f2f7fc 100%)",
+        }}
+      >
+        {/* Soft background ambient lighting glow (warm yellow left + blue right) */}
+        <div className="pointer-events-none absolute -left-20 top-1/4 h-[500px] w-[500px] rounded-full bg-[#ffd629]/12 blur-[140px]" />
+        <div className="pointer-events-none absolute -right-20 top-1/3 h-[500px] w-[500px] rounded-full bg-[#087ec5]/12 blur-[140px]" />
+        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-white/60 blur-[100px]" />
+
+
+        {/* 3D Moving Track Behind */}
+        <div
+          className="absolute inset-0 flex items-center overflow-hidden"
+          style={{ perspective: 1200, perspectiveOrigin: "50% 50%" }}
         >
-            {/* Ambient Background Glows */}
-            <div className="pointer-events-none absolute -right-36 -top-36 -z-10 h-96 w-96 rounded-full bg-[#ffd629]/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-48 -left-40 -z-10 h-[30rem] w-[30rem] rounded-full bg-[#087ec5]/12 blur-3xl" />
+          <div
+            ref={trackRef}
+            className="flex items-center gap-6 will-change-transform"
+            style={{ width: "max-content", paddingLeft: "8vw" }}
+          >
+            {GALLERY_DOUBLED.map((item, idx) => (
+              <div
+                key={`${item.src}-${idx}`}
+                ref={(el) => {
+                  cardRefs.current[idx] = el;
+                }}
+                className="group relative h-[420px] w-[280px] shrink-0 cursor-pointer overflow-hidden rounded-[32px] bg-[#1a2d42] shadow-[0_25px_60px_-15px_rgba(9,43,77,0.35)] transition-[transform,box-shadow] duration-500 hover:shadow-[0_30px_70px_-10px_rgba(9,43,77,0.5)]"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.label}
+                  fill
+                  sizes="280px"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
 
-            <div className="mx-auto max-w-[1500px]">
-                <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 xl:gap-28">
-                    {/* Visual Showcase Card */}
-                    <div ref={imageWrapperRef} className="will-change-transform relative pb-8 sm:pr-8 lg:pb-10">
-                        <div className="absolute -left-4 -top-4 h-24 w-24 rounded-tl-[2.5rem] border-l-2 border-t-2 border-[#ffd629] sm:-left-6 sm:-top-6" />
-                        
-                        <div className="relative overflow-hidden rounded-[1.75rem] bg-[#092b4d] shadow-[0_28px_70px_-24px_rgba(9,43,77,0.40)] sm:rounded-[2.5rem]">
-                            <Image
-                                src="/about-students.png"
-                                alt="Students learning creative skills with an industry mentor"
-                                width={1536}
-                                height={1024}
-                                sizes="(min-width: 1024px) 52vw, 100vw"
-                                className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#061f37]/80 via-transparent to-transparent" />
-                            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4 text-white sm:bottom-8 sm:left-8 sm:right-8">
-                                <p className="max-w-xs text-xl font-black leading-tight sm:text-2xl">
-                                    A space to think, make and grow.
-                                </p>
-                                <span className="hidden h-12 w-12 shrink-0 place-items-center rounded-full border border-white/35 bg-white/15 backdrop-blur-md sm:grid">
-                                    <Sparkles className="h-5 w-5 text-[#ffd629]" />
-                                </span>
-                            </div>
-                        </div>
+                {/* Dark Vignette Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#061524]/90 via-[#061524]/25 to-transparent" />
 
-                        {/* 15+ Years Creative Impact Badge */}
-                        <div
-                            ref={experienceBadgeRef}
-                            className="absolute bottom-0 right-0 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-xl shadow-[#092b4d]/15 backdrop-blur-md sm:right-1 sm:flex sm:items-center sm:gap-4 sm:rounded-3xl sm:px-6 sm:py-5"
-                        >
-                            <p className="text-3xl font-black leading-none text-[#087ec5] sm:text-4xl">
-                                15<span className="text-[#ffd629]">+</span>
-                            </p>
-                            <p className="mt-1 text-[10px] font-extrabold uppercase leading-4 tracking-[0.14em] text-[#092b4d] sm:mt-0">
-                                Years of<br />creative impact
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Editorial Content */}
-                    <div>
-                        <div
-                            ref={badgeRef}
-                            className="inline-flex items-center gap-3 rounded-full border border-[#087ec5]/20 bg-white px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.24em] text-[#087ec5] shadow-sm"
-                        >
-                            <span className="h-2 w-2 rounded-full bg-[#ffd629]" />
-                            About GAA
-                        </div>
-
-                        <h2
-                            ref={headingRef}
-                            className="mt-6 max-w-2xl text-3xl font-black leading-[1.08] tracking-[-0.035em] text-[#092b4d] sm:text-4xl lg:text-5xl"
-                        >
-                            Creativity becomes a{" "}
-                            <span className="relative inline-block text-[#087ec5]">
-                                career
-                                <span className="absolute -bottom-1 left-0 h-1.5 w-full rounded-full bg-[#ffd629]" />
-                            </span>{" "}
-                            here.
-                        </h2>
-
-                        <div ref={paragraphsRef} className="space-y-4">
-                            <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-                                Global Academy of Artistry is a futuristic academy from the house of Yellowtooths,
-                                bringing 15+ years of creative industry experience into the classroom.
-                            </p>
-                            <p className="max-w-2xl text-base leading-7 text-slate-600">
-                                We combine hands-on learning, expert mentorship and live projects to shape independent
-                                thinkers—not just regular employees.
-                            </p>
-                        </div>
-
-                        <Link
-                            ref={ctaRef}
-                            href="#courses"
-                            className="group mt-8 inline-flex items-center gap-3 font-extrabold text-[#092b4d] transition-colors hover:text-[#087ec5]"
-                        >
-                            Discover our courses
-                            <span className="grid h-10 w-10 place-items-center rounded-full bg-[#ffd629] text-[#092b4d] shadow-md transition-transform group-hover:translate-x-1 group-hover:bg-[#ffe15c]">
-                                <ArrowUpRight className="h-4 w-4" />
-                            </span>
-                        </Link>
-                    </div>
+                {/* GAA STUDIO Label + Title */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">
+                    {item.sub}
+                  </p>
+                  <h4 className="mt-1 text-lg font-black tracking-tight text-white drop-shadow-sm">
+                    {item.label}
+                  </h4>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-                {/* Highlight Cards Grid */}
-                <div
-                    ref={cardsContainerRef}
-                    className="mt-16 grid gap-4 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4 lg:gap-5"
-                >
-                    {highlights.map(({ title, text, icon: Icon }, index) => (
-                        <article
-                            key={title}
-                            className="group relative flex min-h-[270px] flex-col overflow-hidden rounded-[1.75rem] border border-[#d8e6f0] bg-white p-6 text-[#092b4d] shadow-[0_18px_45px_-32px_rgba(9,43,77,0.45)] transition-[transform,box-shadow,background-color,border-color,color] duration-300 hover:-translate-y-1.5 hover:border-[#092b4d] hover:bg-[#092b4d] hover:text-white hover:shadow-[0_28px_55px_-28px_rgba(9,43,77,0.4)] sm:p-7"
-                        >
-                            <div className="absolute inset-x-0 top-0 h-1 bg-[#087ec5] transition-colors duration-300 group-hover:bg-[#ffd629]" />
-                            <div className="mb-10 flex items-start justify-between">
-                                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-[#e8f4fb] text-[#087ec5] transition-colors duration-300 group-hover:bg-[#ffd629] group-hover:text-[#092b4d]">
-                                    <Icon className="h-6 w-6" strokeWidth={1.8} />
-                                </span>
-                                <span className="text-4xl font-black leading-none tracking-[-0.08em] text-[#d8e8f2] transition-colors duration-300 group-hover:text-white/20">
-                                    0{index + 1}
-                                </span>
-                            </div>
-                            <h3 className="text-xl font-black leading-tight tracking-[-0.03em]">
-                                {title}
-                            </h3>
-                            <p className="mt-3 text-sm leading-6 text-slate-600 transition-colors duration-300 group-hover:text-[#c5d6e5]">
-                                {text}
-                            </p>
-                            <div className="mt-auto pt-6">
-                                <div className="h-px w-full bg-[#dce8f0] transition-colors duration-300 group-hover:bg-white/20" />
-                            </div>
-                        </article>
-                    ))}
-                </div>
+        {/* Smooth Vignettes on left and right edges matching light background */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-[5] w-24 bg-gradient-to-r from-[#edf3fa] via-[#edf3fa]/85 to-transparent sm:w-48 lg:w-64" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-[5] w-24 bg-gradient-to-l from-[#edf3fa] via-[#edf3fa]/85 to-transparent sm:w-48 lg:w-64" />
+
+        {/* Central Floating Glassmorphism Hero Card (Scaled down proportions) */}
+        <div className="relative z-10 mx-auto w-full max-w-[490px] px-4">
+          <div
+            className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] p-6 sm:p-8 shadow-[0_25px_80px_-15px_rgba(7,27,48,0.45),inset_0_1px_2px_rgba(255,255,255,0.35),inset_0_-1px_2px_rgba(0,0,0,0.2)]"
+            style={{
+              background:
+                "linear-gradient(155deg, rgba(22, 54, 86, 0.58) 0%, rgba(10, 30, 52, 0.70) 100%)",
+              backdropFilter: "blur(26px) saturate(170%)",
+              WebkitBackdropFilter: "blur(26px) saturate(170%)",
+              border: "1px solid rgba(255, 255, 255, 0.26)",
+            }}
+          >
+            {/* Top glass gloss & light reflection */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-40"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 80%)",
+              }}
+            />
+            <div className="pointer-events-none absolute -top-14 left-1/2 h-28 w-56 -translate-x-1/2 rounded-full bg-[#087ec5]/25 blur-2xl" />
+
+            {/* Pill Badge: • ABOUT GAA */}
+            <div className="relative z-10 text-center">
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-white/90 shadow-sm"
+                style={{
+                  background: "rgba(255, 255, 255, 0.12)",
+                  border: "1px solid rgba(255, 255, 255, 0.28)",
+                  backdropFilter: "blur(12px)",
+                }}
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[#ffd629] shadow-[0_0_6px_#ffd629]" />
+                ABOUT GAA
+              </div>
             </div>
-        </section>
-    );
+
+            {/* Main Headline: Creativity becomes a career here. */}
+            <h2 className="relative z-10 mt-4 sm:mt-5 text-center text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-white leading-tight sm:leading-[1.15] drop-shadow-sm">
+              Creativity becomes a{" "}
+              <span className="text-[#ffd629] block sm:inline drop-shadow-sm">career here.</span>
+            </h2>
+
+            {/* Description Paragraph */}
+            <p className="relative z-10 mx-auto mt-3 max-w-sm text-center text-xs leading-relaxed text-white/90 sm:text-[13.5px] sm:leading-6 drop-shadow-sm">
+              Global Academy of Artistry — futuristic creative education from the house of{" "}
+              <span className="font-bold text-white">Yellowtooths</span>, with 15+ years of
+              industry excellence.
+            </p>
+
+            {/* Thin Divider Line */}
+            <div className="relative z-10 my-4 sm:my-5 h-px w-full bg-white/20" />
+
+            {/* Stats Row: 15+ YEARS | 2000+ STUDENTS | 100% PLACEMENT */}
+            <div className="relative z-10 grid grid-cols-3 text-center">
+              <div>
+                <p className="text-xl sm:text-2xl font-black tracking-tight text-[#ffd629] drop-shadow-sm">
+                  15+
+                </p>
+                <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/90 sm:text-[10px]">
+                  YEARS
+                </p>
+              </div>
+              <div className="border-x border-white/15">
+                <p className="text-xl sm:text-2xl font-black tracking-tight text-[#ffd629] drop-shadow-sm">
+                  2000+
+                </p>
+                <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/90 sm:text-[10px]">
+                  STUDENTS
+                </p>
+              </div>
+              <div>
+                <p className="text-xl sm:text-2xl font-black tracking-tight text-[#ffd629] drop-shadow-sm">
+                  100%
+                </p>
+                <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/90 sm:text-[10px]">
+                  PLACEMENT
+                </p>
+              </div>
+            </div>
+
+            {/* CTA Button: Explore our courses (↗) */}
+            <div className="relative z-10 mt-6 sm:mt-7 flex items-center justify-center">
+              <Link
+                href="#courses"
+                className="group inline-flex items-center gap-2.5 font-black text-white transition-opacity duration-200 hover:opacity-95"
+              >
+                <span className="text-xs sm:text-sm font-black tracking-wide drop-shadow-sm">
+                  Explore our courses
+                </span>
+                <span className="grid h-7 w-7 sm:h-8 sm:w-8 place-items-center rounded-full bg-[#ffd629] text-[#092b4d] shadow-md shadow-[#ffd629]/25 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                  <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.8} />
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  );
 }
+
+
