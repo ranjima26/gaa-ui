@@ -170,18 +170,18 @@ export default function Hero() {
                 ref={contentRef}
                 className="will-change-transform mx-auto flex w-full max-w-[1500px] flex-col justify-center px-5 pb-20 pt-32 sm:px-8 sm:pt-36 lg:px-12 xl:px-16"
             >
-                <div className="relative max-w-3xl">
+                <div className="relative max-w-3xl font-editorial">
                     {/* GAA Category Tag */}
                     <div
                         ref={tagRef}
-                        className="mb-5 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/95 backdrop-blur-md sm:text-[11px]"
+                        className="mb-5 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-white/95 backdrop-blur-md sm:text-xs font-editorial"
                     >
                         <span className="h-1.5 w-1.5 rounded-full bg-[#ffd629]" />
                         <span>Learn&nbsp; / &nbsp;Create&nbsp; / &nbsp;Explore</span>
                     </div>
 
                     {/* Masked Editorial Headline */}
-                    <h1 className="text-3xl font-black leading-[1.04] tracking-[-0.035em] drop-shadow-lg sm:text-4xl lg:text-5xl xl:text-[3.85rem]">
+                    <h1 className="font-editorial text-4xl font-extrabold uppercase leading-[1.05] tracking-[0.03em] drop-shadow-lg sm:text-5xl lg:text-6xl xl:text-[4.2rem]">
                         <span ref={titleLine1Ref} className="block">
                             Where Creativity
                         </span>
@@ -193,24 +193,24 @@ export default function Hero() {
                     {/* Subtitle */}
                     <p
                         ref={descRef}
-                        className="mt-6 max-w-xl text-sm leading-6 text-white/90 sm:text-base sm:leading-7 lg:text-lg"
+                        className="font-editorial mt-6 max-w-xl text-base sm:text-lg lg:text-[19px] font-medium leading-relaxed tracking-[0.02em] text-white/90"
                     >
                         Global Academy of Artistry is a premier institution dedicated to nurturing creativity,
                         inspiring innovation and shaping tomorrow&apos;s leaders in the arts and beyond.
                     </p>
 
                     {/* CTAs */}
-                    <div ref={ctaRef} className="mt-8 flex flex-wrap items-center gap-4">
+                    <div ref={ctaRef} className="mt-8 flex flex-wrap items-center gap-4 font-editorial">
                         <Link
                             href="#courses"
-                            className="group inline-flex items-center gap-2.5 rounded-full bg-[#ffd629] px-6 py-3.5 text-xs font-extrabold text-[#142238] shadow-xl shadow-yellow-500/25 transition-all hover:-translate-y-1 hover:bg-[#ffe15c] hover:shadow-yellow-500/35 sm:px-7 sm:py-4 sm:text-sm"
+                            className="group inline-flex items-center gap-2.5 rounded-full bg-[#ffd629] px-6 py-3.5 text-sm sm:text-base font-extrabold uppercase tracking-[0.16em] text-[#142238] shadow-xl shadow-yellow-500/25 transition-all hover:-translate-y-1 hover:bg-[#ffe15c] hover:shadow-yellow-500/35 sm:px-8 sm:py-4"
                         >
                             Explore Courses
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Link>
                         <Link
                             href="#about"
-                            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-xs font-bold text-white backdrop-blur-md transition-all hover:bg-white/20 sm:px-7 sm:py-4 sm:text-sm"
+                            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-sm sm:text-base font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all hover:bg-white/20 sm:px-8 sm:py-4"
                         >
                             About GAA
                         </Link>
@@ -223,7 +223,7 @@ export default function Hero() {
                 ref={scrollDownRef}
                 href="#about"
                 aria-label="Scroll to about section"
-                className="absolute bottom-8 left-5 hidden items-center gap-3 text-[10px] font-bold uppercase tracking-[0.28em] text-white/80 transition-colors hover:text-white sm:flex sm:left-8 lg:left-12 xl:left-16"
+                className="font-editorial absolute bottom-8 left-5 hidden items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-white/80 transition-colors hover:text-white sm:flex sm:left-8 lg:left-12 xl:left-16"
             >
                 <span className="grid h-11 w-7 place-items-center rounded-full border-2 border-white/70">
                     <ArrowDown className="h-3.5 w-3.5 animate-bounce text-[#ffd629]" />

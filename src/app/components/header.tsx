@@ -36,7 +36,7 @@ export default function Header() {
                     <Image src="/gaa_logo.webp" alt="Global Academy of Artistry by Yellowtooths" fill priority className="object-contain object-left" />
                 </Link>
 
-                <nav aria-label="Main navigation" className="hidden items-stretch self-stretch md:flex md:gap-7 lg:gap-10 xl:gap-12">
+                <nav aria-label="Main navigation" className="hidden items-stretch self-stretch md:flex md:gap-7 lg:gap-10 xl:gap-12 font-editorial">
                     {navLinks.map((link) => {
                         const active = activeTab === link.name;
                         return (
@@ -45,7 +45,7 @@ export default function Header() {
                                 href={link.href}
                                 onClick={() => setActiveTab(link.name)}
                                 aria-current={active ? "page" : undefined}
-                                className={`group relative flex items-center text-[15px] font-semibold transition-colors lg:text-base ${active ? "text-white" : "text-white/85 hover:text-white"}`}
+                                className={`group relative flex items-center text-base lg:text-[18px] font-extrabold uppercase tracking-[0.14em] transition-colors ${active ? "text-white" : "text-white/85 hover:text-white"}`}
                             >
                                 {link.name}
                                 <span className={`absolute bottom-5 left-0 h-[3px] rounded-full bg-[#ffd629] transition-all ${active ? "w-full" : "w-0 group-hover:w-full"}`} />
@@ -54,14 +54,14 @@ export default function Header() {
                     })}
                 </nav>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 font-editorial">
                     <Link
                         href="#enroll"
                         onClick={(e) => {
                             e.preventDefault();
                             window.dispatchEvent(new CustomEvent("open-enroll-modal"));
                         }}
-                        className="group hidden items-center gap-2 rounded-full bg-[#ffd629] px-6 py-3 text-sm font-extrabold text-[#142238] shadow-lg shadow-yellow-500/20 transition-all hover:-translate-y-0.5 hover:bg-[#ffe15c] sm:flex"
+                        className="group hidden items-center gap-2 rounded-full bg-[#ffd629] px-6 py-3 text-sm lg:text-base font-extrabold uppercase tracking-[0.14em] text-[#142238] shadow-lg shadow-yellow-500/20 transition-all hover:-translate-y-0.5 hover:bg-[#ffe15c] sm:flex"
                     >
                         Enroll Now
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -79,7 +79,7 @@ export default function Header() {
             </div>
 
             {mobileMenuOpen && (
-                <nav aria-label="Mobile navigation" className="px-5 pb-6 pt-3 md:hidden">
+                <nav aria-label="Mobile navigation" className="px-5 pb-6 pt-3 md:hidden font-editorial">
                     <div className="mx-auto flex max-w-lg flex-col gap-1">
                         {navLinks.map((link) => {
                             const active = activeTab === link.name;
@@ -91,7 +91,7 @@ export default function Header() {
                                         setActiveTab(link.name);
                                         setMobileMenuOpen(false);
                                     }}
-                                    className={`rounded-xl px-4 py-3 font-bold ${active ? "bg-white text-[#075892]" : "text-white hover:bg-white/10"}`}
+                                    className={`rounded-xl px-4 py-3 text-lg font-bold uppercase tracking-[0.14em] ${active ? "bg-white text-[#075892]" : "text-white hover:bg-white/10"}`}
                                 >
                                     {link.name}
                                 </Link>
@@ -104,7 +104,7 @@ export default function Header() {
                                 setMobileMenuOpen(false);
                                 window.dispatchEvent(new CustomEvent("open-enroll-modal"));
                             }}
-                            className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#ffd629] px-5 py-3 font-extrabold text-[#142238] sm:hidden"
+                            className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#ffd629] px-5 py-3 text-base font-extrabold uppercase tracking-[0.14em] text-[#142238] sm:hidden"
                         >
                             Enroll Now <ArrowRight className="h-4 w-4" />
                         </Link>

@@ -152,12 +152,8 @@ export default function About() {
           </div>
         </div>
 
-        {/* Smooth Vignettes on left and right edges matching light background */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-[5] w-24 bg-gradient-to-r from-[#edf3fa] via-[#edf3fa]/85 to-transparent sm:w-48 lg:w-64" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-[5] w-24 bg-gradient-to-l from-[#edf3fa] via-[#edf3fa]/85 to-transparent sm:w-48 lg:w-64" />
-
         {/* Central Floating Glassmorphism Hero Card (Scaled down proportions) */}
-        <div className="relative z-10 mx-auto w-full max-w-[490px] px-4">
+        <div className="relative z-10 mx-auto w-full max-w-[490px] px-4 font-editorial">
           <div
             className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] p-6 sm:p-8 shadow-[0_25px_80px_-15px_rgba(7,27,48,0.45),inset_0_1px_2px_rgba(255,255,255,0.35),inset_0_-1px_2px_rgba(0,0,0,0.2)]"
             style={{
@@ -181,7 +177,7 @@ export default function About() {
             {/* Pill Badge: • ABOUT GAA */}
             <div className="relative z-10 text-center">
               <div
-                className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-white/90 shadow-sm"
+                className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.25em] text-white/95 shadow-sm font-editorial"
                 style={{
                   background: "rgba(255, 255, 255, 0.12)",
                   border: "1px solid rgba(255, 255, 255, 0.28)",
@@ -194,15 +190,15 @@ export default function About() {
             </div>
 
             {/* Main Headline: Creativity becomes a career here. */}
-            <h2 className="relative z-10 mt-4 sm:mt-5 text-center text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-white leading-tight sm:leading-[1.15] drop-shadow-sm">
+            <h2 className="relative z-10 mt-4 sm:mt-5 text-center text-3xl sm:text-4xl lg:text-[42px] font-extrabold tracking-[0.03em] text-white leading-tight sm:leading-[1.1] drop-shadow-sm font-editorial">
               Creativity becomes a{" "}
               <span className="text-[#ffd629] block sm:inline drop-shadow-sm">career here.</span>
             </h2>
 
             {/* Description Paragraph */}
-            <p className="relative z-10 mx-auto mt-3 max-w-sm text-center text-xs leading-relaxed text-white/90 sm:text-[13.5px] sm:leading-6 drop-shadow-sm">
+            <p className="relative z-10 mx-auto mt-3.5 max-w-md text-center text-sm sm:text-[15px] font-medium leading-relaxed text-white/90 drop-shadow-sm font-editorial tracking-[0.02em]">
               Global Academy of Artistry — futuristic creative education from the house of{" "}
-              <span className="font-bold text-white">Yellowtooths</span>, with 15+ years of
+              <span className="font-bold text-[#ffd629]">Yellowtooths</span>, with 15+ years of
               industry excellence.
             </p>
 
@@ -210,40 +206,40 @@ export default function About() {
             <div className="relative z-10 my-4 sm:my-5 h-px w-full bg-white/20" />
 
             {/* Stats Row: 15+ YEARS | 2000+ STUDENTS | 100% PLACEMENT */}
-            <div className="relative z-10 grid grid-cols-3 text-center">
+            <div className="relative z-10 grid grid-cols-3 text-center font-editorial">
               <div>
-                <p className="text-xl sm:text-2xl font-black tracking-tight text-[#ffd629] drop-shadow-sm">
+                <p className="text-2xl sm:text-3xl font-bold tracking-tight text-[#ffd629] drop-shadow-sm">
                   15+
                 </p>
-                <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/90 sm:text-[10px]">
+                <p className="mt-0.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 sm:text-[12px]">
                   YEARS
                 </p>
               </div>
               <div className="border-x border-white/15">
-                <p className="text-xl sm:text-2xl font-black tracking-tight text-[#ffd629] drop-shadow-sm">
+                <p className="text-2xl sm:text-3xl font-bold tracking-tight text-[#ffd629] drop-shadow-sm">
                   2000+
                 </p>
-                <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/90 sm:text-[10px]">
+                <p className="mt-0.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 sm:text-[12px]">
                   STUDENTS
                 </p>
               </div>
               <div>
-                <p className="text-xl sm:text-2xl font-black tracking-tight text-[#ffd629] drop-shadow-sm">
+                <p className="text-2xl sm:text-3xl font-bold tracking-tight text-[#ffd629] drop-shadow-sm">
                   100%
                 </p>
-                <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/90 sm:text-[10px]">
+                <p className="mt-0.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 sm:text-[12px]">
                   PLACEMENT
                 </p>
               </div>
             </div>
 
             {/* CTA Button: Explore our courses (↗) */}
-            <div className="relative z-10 mt-6 sm:mt-7 flex items-center justify-center">
+            <div className="relative z-10 mt-6 sm:mt-7 flex items-center justify-center font-editorial">
               <Link
                 href="#courses"
-                className="group inline-flex items-center gap-2.5 font-black text-white transition-opacity duration-200 hover:opacity-95"
+                className="group inline-flex items-center gap-2.5 font-bold text-white transition-opacity duration-200 hover:opacity-95"
               >
-                <span className="text-xs sm:text-sm font-black tracking-wide drop-shadow-sm">
+                <span className="text-sm sm:text-[15px] font-bold tracking-[0.16em] uppercase drop-shadow-sm">
                   Explore our courses
                 </span>
                 <span className="grid h-7 w-7 sm:h-8 sm:w-8 place-items-center rounded-full bg-[#ffd629] text-[#092b4d] shadow-md shadow-[#ffd629]/25 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
