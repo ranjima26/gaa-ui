@@ -207,7 +207,7 @@ export default function OurCourse() {
   const [openDetailIndex, setOpenDetailIndex] = useState<number | null>(null);
   const [activeMilestone, setActiveMilestone] = useState<number>(0);
 
-  // Scroll tracking for ribbon progress and traveling comet
+  // Scroll tracking for ribbon progress
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end end"]

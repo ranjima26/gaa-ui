@@ -27,50 +27,63 @@ export default function Hero() {
         () => {
             const mm = gsap.matchMedia();
 
-            // Initial Entrance Animation
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            // Initial Entrance Animation synchronized with preloader reveal
+            let played = false;
+            const playEntrance = () => {
+                if (played) return;
+                played = true;
 
-            tl.fromTo(
-                bgContainerRef.current,
-                { scale: 1.08, opacity: 0.7 },
-                { scale: 1.02, opacity: 1, duration: 1.8, ease: "power2.out" }
-            )
-                .fromTo(
-                    tagRef.current,
-                    { opacity: 0, y: 24 },
-                    { opacity: 1, y: 0, duration: 0.8 },
-                    "-=1.2"
+                const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+                tl.fromTo(
+                    bgContainerRef.current,
+                    { scale: 1.08, opacity: 0.7 },
+                    { scale: 1.02, opacity: 1, duration: 1.8, ease: "power2.out" }
                 )
-                .fromTo(
-                    titleLine1Ref.current,
-                    { opacity: 0, y: 36 },
-                    { opacity: 1, y: 0, duration: 1.0 },
-                    "-=0.7"
-                )
-                .fromTo(
-                    titleLine2Ref.current,
-                    { opacity: 0, y: 36 },
-                    { opacity: 1, y: 0, duration: 1.0 },
-                    "-=0.8"
-                )
-                .fromTo(
-                    descRef.current,
-                    { opacity: 0, y: 24 },
-                    { opacity: 1, y: 0, duration: 0.9 },
-                    "-=0.7"
-                )
-                .fromTo(
-                    ctaRef.current,
-                    { opacity: 0, y: 20, scale: 0.96 },
-                    { opacity: 1, y: 0, scale: 1, duration: 0.8 },
-                    "-=0.6"
-                )
-                .fromTo(
-                    scrollDownRef.current,
-                    { opacity: 0, y: 15 },
-                    { opacity: 0.85, y: 0, duration: 0.8 },
-                    "-=0.5"
-                );
+                    .fromTo(
+                        tagRef.current,
+                        { opacity: 0, y: 24 },
+                        { opacity: 1, y: 0, duration: 0.8 },
+                        "-=1.3"
+                    )
+                    .fromTo(
+                        titleLine1Ref.current,
+                        { opacity: 0, y: 36 },
+                        { opacity: 1, y: 0, duration: 1.0 },
+                        "-=0.7"
+                    )
+                    .fromTo(
+                        titleLine2Ref.current,
+                        { opacity: 0, y: 36 },
+                        { opacity: 1, y: 0, duration: 1.0 },
+                        "-=0.8"
+                    )
+                    .fromTo(
+                        descRef.current,
+                        { opacity: 0, y: 24 },
+                        { opacity: 1, y: 0, duration: 0.9 },
+                        "-=0.7"
+                    )
+                    .fromTo(
+                        ctaRef.current,
+                        { opacity: 0, y: 20, scale: 0.96 },
+                        { opacity: 1, y: 0, scale: 1, duration: 0.8 },
+                        "-=0.6"
+                    )
+                    .fromTo(
+                        scrollDownRef.current,
+                        { opacity: 0, y: 15 },
+                        { opacity: 0.85, y: 0, duration: 0.8 },
+                        "-=0.5"
+                    );
+            };
+
+            if (typeof window !== "undefined" && (window as unknown as { __gaaSiteReady?: boolean }).__gaaSiteReady) {
+                playEntrance();
+            } else if (typeof window !== "undefined") {
+                window.addEventListener("gaa-site-ready", playEntrance, { once: true });
+                window.setTimeout(playEntrance, 1300);
+            }
 
             // Scroll-driven exit choreography (Desktop / Tablet)
             mm.add("(min-width: 768px)", () => {

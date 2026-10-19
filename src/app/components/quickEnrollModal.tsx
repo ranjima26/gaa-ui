@@ -12,7 +12,7 @@ const courseOptions = [
 
 export default function QuickEnrollModal() {
     const [mounted, setMounted] = useState(false);
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         name: "",

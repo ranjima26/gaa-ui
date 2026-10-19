@@ -40,12 +40,15 @@ export default function About() {
 
     const update3DEffect = () => {
       const centerX = window.innerWidth / 2;
-      cardRefs.current.forEach((el) => {
+      const paddingLeft = window.innerWidth * 0.08;
+      const currentX = (gsap.getProperty(trackRef.current, "x") as number) || 0;
+      const halfWidth = window.innerWidth * 0.52;
+
+      cardRefs.current.forEach((el, idx) => {
         if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const cardCenter = rect.left + rect.width / 2;
+        const cardCenter = paddingLeft + currentX + idx * CARD_STEP + CARD_W / 2;
         const distFromCenter = cardCenter - centerX;
-        const normalized = distFromCenter / (window.innerWidth * 0.52);
+        const normalized = distFromCenter / halfWidth;
 
         const clampedNorm = Math.max(-1.3, Math.min(1.3, normalized));
         const rotateY = -clampedNorm * 26;
@@ -77,6 +80,21 @@ export default function About() {
 
     tweenRef.current = tween;
 
+    // Pause when offscreen to preserve 100% main thread performance during hero load & scroll
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tween.play();
+          } else {
+            tween.pause();
+          }
+        });
+      },
+      { rootMargin: "250px" }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
     // Slow down on hover
     const trackEl = trackRef.current;
     const handleMouseEnter = () => tween.timeScale(0.25);
@@ -86,6 +104,7 @@ export default function About() {
     trackEl.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
+      observer.disconnect();
       trackEl.removeEventListener("mouseenter", handleMouseEnter);
       trackEl.removeEventListener("mouseleave", handleMouseLeave);
       tween.kill();
@@ -98,7 +117,7 @@ export default function About() {
       {/* 1. 3D CAROUSEL WITH EXACT CENTER GLASSMORPHISM CARD                      */}
       {/* ========================================================================= */}
       <div
-        className="relative flex min-h-screen w-full items-center justify-center overflow-hidden py-20 lg:py-28"
+        className="relative flex min-h-svh w-full items-center justify-center overflow-hidden py-16 sm:py-24 lg:py-28"
         style={{
           background: "linear-gradient(180deg, #edf3fa 0%, #f6f9fc 45%, #ffffff 80%, #f2f7fc 100%)",
         }}
@@ -153,7 +172,7 @@ export default function About() {
         </div>
 
         {/* Central Floating Glassmorphism Hero Card (Scaled down proportions) */}
-        <div className="relative z-10 mx-auto w-full max-w-[490px] px-4 font-editorial">
+        <div className="relative z-10 mx-auto w-full max-w-[340px] sm:max-w-[420px] md:max-w-[490px] px-5 sm:px-4 font-editorial">
           <div
             className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] p-6 sm:p-8 shadow-[0_25px_80px_-15px_rgba(7,27,48,0.45),inset_0_1px_2px_rgba(255,255,255,0.35),inset_0_-1px_2px_rgba(0,0,0,0.2)]"
             style={{

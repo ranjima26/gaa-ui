@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   try {
     const webhook = process.env.DISCORD_WEBHOOK_URL
     if (!webhook) {
-      return res.status(500).json({ error: 'DISCORD_WEBHOOK_URL not configured' })
+      return res.status(200).json({ ok: false, disabled: true, message: 'DISCORD_WEBHOOK_URL not configured' })
     }
 
     const body = req.body || {}

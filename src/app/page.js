@@ -6,6 +6,7 @@ import CreativeCta from './components/creativeCta'
 import AboutPoster from './components/aboutPoster'
 import Footer from './components/footer'
 import Preloader from './components/preloader'
+import Gallery from './components/gallery'
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <About />
         <OurCourse />
         <CreativeCta />
+        <Gallery />
         <Footer />
       </main>
     </>

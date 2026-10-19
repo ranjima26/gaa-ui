@@ -102,20 +102,14 @@ export default function AboutPoster() {
     <section
       ref={containerRef}
       id="about-poster"
-      className="relative w-full min-h-[95vh] lg:min-h-screen overflow-hidden select-none py-16 lg:py-24"
+      className="relative w-full overflow-hidden select-none py-16 lg:py-24"
       style={{
         background: "linear-gradient(145deg, #f2f7fc 0%, #e8f2fa 50%, #edf5fc 100%)",
         color: "#092b4d",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,800;0,900;1,800;1,900&family=Syne:wght@800;900&display=swap');
-        
-        .font-editorial {
-          font-family: 'Barlow Condensed', 'Anton', sans-serif;
-          font-weight: 900;
-          text-transform: uppercase;
-        }
+
 
         .text-3d-shadow {
           text-shadow: 
@@ -154,7 +148,7 @@ export default function AboutPoster() {
       </svg>
 
       {/* 2. Top-Right Editorial Poetic Micro-Text */}
-      <div className="absolute top-8 right-6 sm:top-12 sm:right-12 z-20 text-right max-w-[280px] sm:max-w-[320px]">
+      <div className="hidden sm:block absolute top-8 right-6 sm:top-12 sm:right-12 z-20 text-right max-w-[280px] sm:max-w-[320px]">
         <p className="font-editorial text-[10px] sm:text-[11px] font-black tracking-[0.24em] text-[#092b4d] opacity-80 leading-relaxed">
           OF THIS CREATIVE THEATRE IN WHICH WE DWELL,
           WHERE PASSION MEETS DISCIPLINE AND CRAFT.
@@ -237,12 +231,12 @@ export default function AboutPoster() {
         {/* Row 2: Monumental "G A A" Dominating the Bottom/Right Side in Dark Navy Blue */}
         <div
           ref={giantGaaRef}
-          className="relative w-full flex items-end justify-between leading-[0.72] mt-4 sm:mt-0"
+          className="relative w-full flex flex-col lg:flex-row lg:items-end lg:justify-between leading-[0.72] mt-4 sm:mt-0"
         >
           {/* Bottom Left About Philosophy & Manifesto Paragraph */}
-          <div className="z-20 max-w-xl pl-8 sm:pl-16 lg:pl-20 pb-6 sm:pb-8">
+          <div className="z-20 w-full lg:max-w-xl px-6 sm:px-10 lg:pl-20 lg:pr-0 pb-4 lg:pb-8">
             <div className="h-1.5 w-12 bg-[#ffd629] mb-4 rounded-full" />
-            <p className="font-editorial text-xs sm:text-[13px] lg:text-[14px] font-black uppercase tracking-[0.16em] sm:tracking-[0.18em] leading-relaxed text-[#092b4d]">
+            <p className="font-editorial text-xs sm:text-[13px] lg:text-[14px] font-black uppercase tracking-[0.12em] sm:tracking-[0.18em] leading-relaxed text-[#092b4d]">
               GLOBAL ACADEMY OF ARTISTRY (GAA) IS A FUTURISTIC ACADEMY FROM THE HOUSE OF YELLOWTOOTHS, A CREATIVE AGENCY WITH 15+ YEARS OF EXPERIENCE IN FILM POSTER DESIGN, BRANDING, DIGITAL MARKETING AND MORE. OUR TEACHING PHILOSOPHY BLENDS HANDS-ON LEARNING, MENTORSHIP FROM WELL-KNOWN CREATIVE PERSONALITIES AND EXPOSURE TO LIVE PROJECTS. WE SHAPE CREATIVE LEADERS RATHER THAN REGULAR EMPLOYEES THROUGH OUR WELL-RESEARCHED COURSE OFFERINGS.
             </p>
             <Link
@@ -258,7 +252,7 @@ export default function AboutPoster() {
           <div
             className="font-editorial text-[#092b4d] font-black tracking-[-0.08em] flex items-baseline ml-auto text-right"
             style={{
-              fontSize: "clamp(13rem, 36vw, 44rem)",
+              fontSize: "clamp(5rem, 36vw, 44rem)",
               marginRight: "-5vw",
               lineHeight: 0.72,
             }}
@@ -271,7 +265,7 @@ export default function AboutPoster() {
       </div>
 
       {/* 5. Points Checklist (Clean 2x2 Grid) */}
-      <div className="relative z-20 mx-auto mt-12 sm:mt-16 max-w-5xl px-6 sm:px-10 lg:px-12">
+      <div className="relative z-20 mx-auto mt-4 sm:mt-16 max-w-5xl px-6 sm:px-10 lg:px-12">
         <div
           ref={pointsRef}
           className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-5 sm:gap-y-6 border-t-2 border-[#092b4d]/15 pt-8"

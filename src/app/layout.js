@@ -1,7 +1,7 @@
 // src/app/layout.js
 import './globals.css'
 import VisitorTracker from './visitorTracker'
-import { poppins } from '../fonts/poppins'
+import { poppins, barlowCondensed, anton } from '../fonts/fonts'
 import QuickEnrollModal from './components/quickEnrollModal'
 import Script from 'next/script' // ✅ import Script
 
@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={poppins.className}>
+    <html lang="en" className={`${poppins.variable} ${barlowCondensed.variable} ${anton.variable} ${poppins.className} scroll-smooth`}>
       <head>
         {/* ✅ Google Ads Tag */}
         <Script

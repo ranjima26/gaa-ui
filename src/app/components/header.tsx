@@ -17,16 +17,31 @@ export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeTab, setActiveTab] = useState("Home");
+    const [headerVisible, setHeaderVisible] = useState(false);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 28);
         onScroll();
         window.addEventListener("scroll", onScroll);
+
+        const showHeader = () => setHeaderVisible(true);
+        if (typeof window !== "undefined" && (window as unknown as { __gaaSiteReady?: boolean }).__gaaSiteReady) {
+            showHeader();
+        } else if (typeof window !== "undefined") {
+            window.addEventListener("gaa-site-ready", showHeader, { once: true });
+            const timer = window.setTimeout(showHeader, 1400);
+            return () => {
+                window.removeEventListener("scroll", onScroll);
+                window.removeEventListener("gaa-site-ready", showHeader);
+                window.clearTimeout(timer);
+            };
+        }
+
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
     return (
-        <header className={`fixed z-[100] transition-all duration-300 ${mobileMenuOpen ? "inset-x-3 top-3 rounded-2xl bg-[#034b86]/95 shadow-2xl shadow-slate-950/25 backdrop-blur-xl" : scrolled ? "inset-x-3 top-3 rounded-full bg-[#034b86]/95 shadow-2xl shadow-slate-950/25 backdrop-blur-xl sm:inset-x-6 lg:inset-x-10" : "inset-x-0 top-0 bg-transparent"}`}>
+        <header className={`fixed z-[100] transition-all duration-700 ease-out ${headerVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"} ${mobileMenuOpen ? "inset-x-3 top-3 rounded-2xl bg-[#034b86]/95 shadow-2xl shadow-slate-950/25 backdrop-blur-xl" : scrolled ? "inset-x-3 top-3 rounded-full bg-[#034b86]/95 shadow-2xl shadow-slate-950/25 backdrop-blur-xl sm:inset-x-6 lg:inset-x-10" : "inset-x-0 top-0 bg-transparent"}`}>
             <div className={`mx-auto flex max-w-[1500px] items-center justify-between px-5 transition-all duration-300 sm:px-8 lg:px-12 xl:px-16 ${scrolled ? "h-16 sm:h-[4.5rem]" : "h-20 sm:h-24"}`}>
                 <Link
                     href="/"
