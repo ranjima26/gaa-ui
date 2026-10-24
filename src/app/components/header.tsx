@@ -1,9 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Menu, X } from "lucide-react";
+
+// Maps section element IDs to nav link names
+const sectionIdToNav: Record<string, string> = {
+    about: "About",
+    courses: "Courses",
+    gallery: "Gallery",
+    mentorship: "Videos", // creativeCta section uses id="mentorship"
+    videos: "Videos",     // in case a #videos section is added later
+};
 
 const navLinks = [
     { name: "Home", href: "/" },
@@ -18,12 +27,65 @@ export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [activeTab, setActiveTab] = useState("Home");
     const [headerVisible, setHeaderVisible] = useState(false);
+    // Track which sections are currently intersecting and how much
+    const visibleSections = useRef<Map<string, number>>(new Map());
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 28);
+        // ── Scroll state for navbar pill style ──────────────────────────
+        const onScroll = () => {
+            setScrolled(window.scrollY > 28);
+            // If user scrolls all the way back to the very top, reset to Home
+            if (window.scrollY < 80) {
+                setActiveTab("Home");
+            }
+        };
         onScroll();
-        window.addEventListener("scroll", onScroll);
+        window.addEventListener("scroll", onScroll, { passive: true });
 
+        // ── IntersectionObserver scroll-spy ──────────────────────────────
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const id = entry.target.id;
+                    if (entry.isIntersecting) {
+                        visibleSections.current.set(id, entry.intersectionRatio);
+                    } else {
+                        visibleSections.current.delete(id);
+                    }
+                });
+
+                // Skip update if we're at the very top (Home wins)
+                if (window.scrollY < 80) return;
+
+                // Pick the section with the highest intersection ratio
+                let bestId = "";
+                let bestRatio = 0;
+                visibleSections.current.forEach((ratio, id) => {
+                    if (ratio > bestRatio) {
+                        bestRatio = ratio;
+                        bestId = id;
+                    }
+                });
+
+                if (bestId && sectionIdToNav[bestId]) {
+                    setActiveTab(sectionIdToNav[bestId]);
+                }
+            },
+            {
+                // Fire at multiple thresholds for smoother updates
+                threshold: [0.1, 0.2, 0.3, 0.4, 0.5],
+                // Shrink the observable root so sections trigger sooner
+                rootMargin: "-10% 0px -10% 0px",
+            }
+        );
+
+        // Observe all mapped sections
+        Object.keys(sectionIdToNav).forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        // ── Preloader gate ───────────────────────────────────────────────
         const showHeader = () => setHeaderVisible(true);
         if (typeof window !== "undefined" && (window as unknown as { __gaaSiteReady?: boolean }).__gaaSiteReady) {
             showHeader();
@@ -34,10 +96,14 @@ export default function Header() {
                 window.removeEventListener("scroll", onScroll);
                 window.removeEventListener("gaa-site-ready", showHeader);
                 window.clearTimeout(timer);
+                observer.disconnect();
             };
         }
 
-        return () => window.removeEventListener("scroll", onScroll);
+        return () => {
+            window.removeEventListener("scroll", onScroll);
+            observer.disconnect();
+        };
     }, []);
 
     return (
